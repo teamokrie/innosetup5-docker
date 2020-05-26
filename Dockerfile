@@ -20,13 +20,13 @@ ENV PATH $PATH:/opt/bin
 USER xclient
 
 # Install Inno Setup binaries
-RUN curl -SL "http://files.jrsoftware.org/is/6/innosetup-6.0.4.exe" -o is.exe \
+RUN curl -SL "http://files.jrsoftware.org/is/6/innosetup-6.0.5.exe" -o is.exe \
     && wine-x11-run wine is.exe /SP- /VERYSILENT /ALLUSERS /SUPPRESSMSGBOXES \
     && rm is.exe
 
 # Install unofficial languages
 RUN cd "/home/xclient/.wine/drive_c/Program Files/Inno Setup 6/Languages" \
-    && curl -L "https://api.github.com/repos/jrsoftware/issrc/tarball/ec262f6ded5eaa9db2565977463ea633b3b1df60" \
+    && curl -L "https://api.github.com/repos/jrsoftware/issrc/tarball/is-6_0_5" \
     | tar xz --strip-components=4 --wildcards "*/Files/Languages/Unofficial/*.isl"
 
 FROM debian:buster-slim
