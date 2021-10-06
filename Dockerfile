@@ -1,4 +1,4 @@
-FROM amake/wine:latest as inno
+FROM amake/wine:wine64 as inno
 MAINTAINER Aaron Madlon-Kay <aaron@madlon-kay.com>
 
 USER root
@@ -25,7 +25,7 @@ RUN curl -SL "https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe" -o is.exe \
     && rm is.exe
 
 # Install unofficial languages
-RUN cd "/home/xclient/.wine/drive_c/Program Files/Inno Setup 6/Languages" \
+RUN cd "/home/xclient/.wine/drive_c/Program Files (x86)/Inno Setup 6/Languages" \
     && curl -L "https://api.github.com/repos/jrsoftware/issrc/tarball/is-6_2_0" \
     | tar xz --strip-components=4 --wildcards "*/Files/Languages/Unofficial/*.isl"
 
@@ -48,6 +48,7 @@ RUN dpkg --add-architecture i386 \
     && apt-get install -y --no-install-recommends \
     wine \
     wine32 \
+    wine64 \
     osslsigncode \
     && rm -rf /var/lib/apt/lists/*
 
@@ -62,7 +63,7 @@ RUN mkdir /work && chown xclient:xusers -R /work
 USER xclient
 ENV HOME /home/xclient
 ENV WINEPREFIX /home/xclient/.wine
-ENV WINEARCH win32
+ENV WINEARCH win64
 
 WORKDIR /work
 ENTRYPOINT ["iscc"]
