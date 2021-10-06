@@ -21,7 +21,7 @@ USER xclient
 
 # Install Inno Setup binaries
 RUN curl -SL "https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe" -o is.exe \
-    && wine-x11-run wine is.exe /SP- /VERYSILENT /ALLUSERS /SUPPRESSMSGBOXES \
+    && wine-x11-run wine is.exe /SP- /VERYSILENT /ALLUSERS /SUPPRESSMSGBOXES /DOWNLOADISCRYPT=1 \
     && rm is.exe
 
 # Install unofficial languages
