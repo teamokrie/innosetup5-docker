@@ -19,6 +19,13 @@ ENV PATH $PATH:/opt/bin
 
 USER xclient
 
+# InnoSetup ignores dotfiles if they are considered hidden, so set
+# ShowDotFiles=Y. But the registry file is written to disk asynchronously, so
+# wait for it to be updated before proceeding; see
+# https://github.com/amake/innosetup-docker/issues/6
+RUN wine reg add 'HKEY_CURRENT_USER\Software\Wine' /v ShowDotFiles /d Y \
+    && while [ ! -f /home/xclient/.wine/user.reg ]; do sleep 1; done
+
 # Install Inno Setup binaries
 RUN curl -SL "https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe" -o is.exe \
     && wine-x11-run wine is.exe /SP- /VERYSILENT /ALLUSERS /SUPPRESSMSGBOXES /DOWNLOADISCRYPT=1 \
