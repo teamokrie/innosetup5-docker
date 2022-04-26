@@ -14,7 +14,6 @@ ENV WINEDEBUG -all,err+all
 ENV DISPLAY :99
 
 COPY opt /opt
-RUN chmod +x /opt/bin/*
 ENV PATH $PATH:/opt/bin
 
 USER xclient
@@ -59,7 +58,6 @@ RUN dpkg --add-architecture i386 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY opt /opt
-RUN chmod +x /opt/bin/*
 ENV PATH $PATH:/opt/bin
 
 COPY --chown=xclient:xusers --from=inno /home/xclient/.wine /home/xclient/.wine
