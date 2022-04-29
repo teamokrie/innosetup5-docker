@@ -9,8 +9,9 @@ build:
 
 .PHONY: test
 test: ## Test the Docker image
-test:
+test: clean
 	docker run --rm -i -v $(PWD):/work $(DOCKER_TAG) helloworld.iss
+	ls -al Output/HelloWorld.exe
 
 .PHONY: shell
 shell: ## Open a shell in the Docker container
