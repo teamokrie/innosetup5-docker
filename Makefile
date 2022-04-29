@@ -18,6 +18,10 @@ shell: ## Open a shell in the Docker container
 shell:
 	docker run --rm -it -v $(PWD):/work --entrypoint /bin/bash $(docker_tag)
 
+.PHONY: push
+push: ## Publish to Docker Hub
+	docker push $(docker_tag)
+
 .PHONY: clean
 clean: ## Remove generated files
 clean:
