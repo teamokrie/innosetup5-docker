@@ -1,22 +1,22 @@
-USER := $(shell whoami)
-GIT_BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
-DOCKER_TAG := $(USER)/innosetup:$(GIT_BRANCH)
+user := $(shell whoami)
+git_branch := $(shell git rev-parse --abbrev-ref HEAD)
+docker_tag := $(user)/innosetup:$(git_branch)
 
 .PHONY: build
 build: ## Build the Docker image
 build:
-	docker build -t $(DOCKER_TAG) .
+	docker build -t $(docker_tag) .
 
 .PHONY: test
 test: ## Test the Docker image
 test: clean
-	docker run --rm -i -v $(PWD):/work $(DOCKER_TAG) helloworld.iss
+	docker run --rm -i -v $(PWD):/work $(docker_tag) helloworld.iss
 	ls -al Output/HelloWorld.exe
 
 .PHONY: shell
 shell: ## Open a shell in the Docker container
 shell:
-	docker run --rm -it -v $(PWD):/work --entrypoint /bin/bash $(DOCKER_TAG)
+	docker run --rm -it -v $(PWD):/work --entrypoint /bin/bash $(docker_tag)
 
 .PHONY: clean
 clean: ## Remove generated files
