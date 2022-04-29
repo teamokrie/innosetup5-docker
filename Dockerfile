@@ -14,7 +14,6 @@ ENV WINEDEBUG -all,err+all
 ENV DISPLAY :99
 
 COPY opt /opt
-RUN chmod +x /opt/bin/*
 ENV PATH $PATH:/opt/bin
 
 USER xclient
@@ -27,13 +26,13 @@ RUN wine reg add 'HKEY_CURRENT_USER\Software\Wine' /v ShowDotFiles /d Y \
     && while [ ! -f /home/xclient/.wine/user.reg ]; do sleep 1; done
 
 # Install Inno Setup binaries
-RUN curl -SL "https://files.jrsoftware.org/is/6/innosetup-6.2.0.exe" -o is.exe \
+RUN curl -SL "https://files.jrsoftware.org/is/6/innosetup-6.2.1.exe" -o is.exe \
     && wine-x11-run wine is.exe /SP- /VERYSILENT /ALLUSERS /SUPPRESSMSGBOXES /DOWNLOADISCRYPT=1 \
     && rm is.exe
 
 # Install unofficial languages
 RUN cd "/home/xclient/.wine/drive_c/Program Files (x86)/Inno Setup 6/Languages" \
-    && curl -L "https://api.github.com/repos/jrsoftware/issrc/tarball/is-6_2_0" \
+    && curl -L "https://api.github.com/repos/jrsoftware/issrc/tarball/is-6_2_1" \
     | tar xz --strip-components=4 --wildcards "*/Files/Languages/Unofficial/*.isl"
 
 FROM debian:buster-slim
@@ -60,7 +59,6 @@ RUN dpkg --add-architecture i386 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY opt /opt
-RUN chmod +x /opt/bin/*
 ENV PATH $PATH:/opt/bin
 
 COPY --chown=xclient:xusers --from=inno /home/xclient/.wine /home/xclient/.wine
