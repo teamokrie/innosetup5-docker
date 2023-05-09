@@ -1,8 +1,6 @@
 FROM amake/wine:latest
 MAINTAINER Aaron Madlon-Kay <aaron@madlon-kay.com>
 
-USER root
-
 RUN apt-get update \
     && apt-get install -y --no-install-recommends procps xvfb git \
     && rm -rf /var/lib/apt/lists/*
@@ -16,8 +14,6 @@ ENV DISPLAY :99
 COPY opt /opt
 RUN chmod +x /opt/bin/*
 ENV PATH $PATH:/opt/bin
-
-USER xclient
 
 # Install Inno Setup binaries
 RUN curl -SL "http://files.jrsoftware.org/is/5/innosetup-5.6.1-unicode.exe" -o is.exe \
