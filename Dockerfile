@@ -34,6 +34,7 @@ ENV HOME /home/xclient
 ENV WINEPREFIX /home/xclient/.wine
 ENV WINEARCH win32
 RUN chown -R root /home
+RUN chown -R root /tmp
 
 WORKDIR /work
 ENTRYPOINT ["wine-x11-run", "iscc"]
